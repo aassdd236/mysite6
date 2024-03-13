@@ -12,6 +12,7 @@
 	rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/assets/css/guestbook.css"
 	rel="stylesheet" type="text/css">
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 </head>
 
@@ -76,26 +77,9 @@
 						<input type="hidden" name="action" value="add">
 
 					</form>
-					<!-- <c:forEach items="${gList }" var="guestVo">
-						<table class="guestRead">
-							<colgroup>
-								<col style="width: 10%;">
-								<col style="width: 40%;">
-								<col style="width: 40%;">
-								<col style="width: 10%;">
-							</colgroup>
-							<tr>
-								<td>${guestVo.no }</td>
-								<td>${guestVo.name }</td>
-								<td>${guestVo.date }</td>
-								<td><a href="${pageContext.request.contextPath}/guest/deleteform?no=${guestVo.no }">[삭제]</a></td>
-							</tr>
-							<tr>
-								<td colspan=4 class="text-left">${guestVo.content }</td>
-							</tr>
-						</table>
-					</c:forEach> -->
-
+					<div id="guestbookListArea">
+						<!-- 방명록 글 리스트 -->
+					</div>
 				</div>
 				<!-- //guestbook -->
 			</div>
@@ -113,8 +97,58 @@
 <script>
 	//DOM tree가 생성되었을 때
 	document.addEventListener("DOMContentLoaded", function(){
-		
+		//리스트 요청 데이터만 받기
+		axios({
+	        method: 'get',           // put, post, delete                   
+	        url: '${pageContext.request.contextPath}/api/guestbooks',
+	        headers: {"Content-Type" : "application/json; charset=utf-8"}, //전송타입
+	        //params: guestbookVo,  //get방식 파라미터로 값이 전달
+	        //data: guestbookVo,   //put, post, delete 방식 자동으로 JSON으로 변환 전달
+	        responseType: 'json' //수신타입
+	    })
+	    .then(function (response) {
+	        console.log(response); //수신데이타
+	        console.log(response.data);
+	        
+	        //리스트 자리에 글을 추가
+	        for(let i=0; i<response.data.length; i++){
+	        	let guestVo = response.data[i];
+	        	render(guestVo); //1개의 글을 render()에게 전달 > render() 리스트위치에 그린다
+	        }
+	        
+	    })
+	    .catch(function (error) {
+	        console.log(error);
+	    });
 	});
+	
+	//함수들
+	function render(guestVo){
+		console.log("render()");
+		console.log(guestVo);
+		
+		let guestbookListArea = document.querySelector("#guestbookListArea");
+		console.log(guestbookListArea);
+	
+		
+		//alt + shift + a : 선택 삭제 가능
+		let str = '<table class="guestRead">';
+		 str += '	<colgroup>';
+		 str += '		<col style="width: 10%;">';
+		 str += '		<col style="width: 40%;">';
+		 str += '		<col style="width: 40%;">';
+		 str += '		<col style="width: 10%;">';
+		 str += '	</colgroup>';
+		 str += '	<tr><td>'+guestVo.no+'</td>';
+		 str += '	<td>'+guestVo.name+'</td>';
+		 str += '	<td>'+guestVo.regDage+'</td>';
+		 str += '	<td><a href="">[삭제]</a></td></tr>';
+		 str += '	<tr><td colspan=4 class="text-left">'+guestVo.content+'</td></tr>';
+		 str += '</table>';
+		
+		 guestbookListArea.insertAdjacentHTML("beforeend", str);
+		
+	}
 </script>
 
 </html>
