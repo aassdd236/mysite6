@@ -29,8 +29,9 @@ public class ApiGuestbookController {
 		return guestbookList;
 	}
 	
+	@ResponseBody
 	@RequestMapping(value = "/api/guestbooks", method = RequestMethod.POST)
-	public String add(@ModelAttribute GuestVo guestVo) {
+	public GuestVo add(@ModelAttribute GuestVo guestVo) {
 		System.out.println("ApiGuestbookController.add()");
 		
 		System.out.println(guestVo);
@@ -39,6 +40,6 @@ public class ApiGuestbookController {
 
 		System.out.println(gVo);
 		
-		return "ok";
+		return gVo;
 	}
 }

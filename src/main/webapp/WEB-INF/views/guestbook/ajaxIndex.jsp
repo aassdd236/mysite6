@@ -13,7 +13,15 @@
 <link href="${pageContext.request.contextPath}/assets/css/guestbook.css"
 	rel="stylesheet" type="text/css">
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+<style>
+.modal{
+	display: block;
+}
+.modal .modal-content {
+	width: 818px;
+	border: 1px solid #000000;
+}
+</style>
 </head>
 
 <body>
@@ -80,6 +88,25 @@
 						<input type="hidden" name="action" value="add">
 
 					</form>
+
+					<!-- 모달 창 컨텐츠 -->
+					<div id="myModal" class="modal">
+						<div id="guestbook" class="modal-content">
+							<div class="closeBtn">×</div>
+							<div class="m-header">패스워드를 입력하세요</div>
+							<div class="m-body">
+								<input class="m-password" type="password" name="password" value=""><br> 
+								<input class="m-no" type="text" name="no" value="">
+							</div>
+							<div class="m-footer">
+								<button class="btnDelete" type="button">삭제</button>
+							</div>
+						</div>
+					</div>
+
+
+
+
 					<div id="guestbookListArea">
 						<!-- 방명록 글 리스트 -->
 					</div>
@@ -117,7 +144,7 @@
             //글을 추가한다
             for (let i = 0; i <response.data.length; i++) {
                let guestVo = response.data[i];
-               render(guestVo);
+               render(guestVo, "down");
             }
             
          
@@ -154,20 +181,63 @@
                responseType: 'json' //수신타입
                }).then(function (response) {
                console.log(response); //수신데이타
+               console.log(response.data);
+               let guestVo = response.data;
+               
+               render(guestVo, "up");
+               
                }).catch(function (error) {
                console.log(error);
                });
          });
+         
+         //모달창 호출 버튼 클릭
+         let guestbookListArea = document.querySelector("#guestbookListArea");
+         guestbookListArea.addEventListener("click", function(event){
+         	//console.log(event.target.tagName);
+         	
+         	if(event.target.tagName =="BUTTON"){
+         		/*
+         		console.log("모달창 보이기");
+         		let modal = document.querySelector(".modal");
+         		modal.style.display = "block"; */
+         		
+         		//hidden 의 value > no값 입력
+         		let noTag = document.querySelector('[name="no"]');
+         		noTag.value=event.target.dataset.no;
+         		
+         	}
+         });
+         
+         //모달창에 삭제 버튼을 클릭했을 때
+         let btnDelete = document.querySelector(".btnDelete");
+         btnDelete.addEventListener("click", function(){
+             console.log("클릭");
+             
+             let no = document.querySelector('.m-no').value;
+             let password = document.querySelector('.m-password').value;
+             
+             //데이터 모으기
+             let guestVo = {
+            		 no: no,
+            		 password: password
+             }
+
+             //서버로 전송      /api/guestbooks/delete, post 방식
+             
+         });
+
+         
    });
    
    
  //함수들
-   function render(guestVo){
-      console.log("render()");
-      console.log(guestVo);
+   function render(guestVo, dir){
+      //console.log("render()");
+      //console.log(guestVo);
       
       let guestbookListArea = document.querySelector("#guestbookListArea");
-      console.log(guestbookListArea);
+      //console.log(guestbookListArea);
    
       
       //alt + shift + a : 선택 삭제 가능
@@ -181,11 +251,18 @@
        str += '   <tr><td>'+guestVo.no+'</td>';
        str += '   <td>'+guestVo.name+'</td>';
        str += '   <td>'+guestVo.regDate+'</td>';
-       str += '   <td><a href="">[삭제]</a></td></tr>';
+       str += '   <td><button class="btnModal" type="button" data-no="'+guestVo.no+'">삭제</button></td></tr>';
        str += '   <tr><td colspan=4 class="text-left">'+guestVo.content+'</td></tr>';
        str += '</table>';
       
-       guestbookListArea.insertAdjacentHTML("beforeend", str);
+       if(dir == "down"){
+           guestbookListArea.insertAdjacentHTML("beforeend", str);
+       }else if(dir == "up"){
+    	   guestbookListArea.insertAdjacentHTML("afterbegin", str);
+       }else{
+    	   console.log("방향체크");
+       }
+
       
    }
    
