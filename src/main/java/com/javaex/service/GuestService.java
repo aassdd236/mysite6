@@ -35,5 +35,19 @@ public class GuestService {
 
 		return count;
 	}
+	
+	public GuestVo exeAddandGuest(GuestVo guestVo) {
+		System.out.println("GuestService.exeAddandGuest()");
+		
+		//저장
+		//System.out.println("번호 저장 전: "+guestVo); //번호 저장 전
+		guestDao.insertSelectKey(guestVo);
+		//System.out.println("번호 저장 후: "+guestVo); //번호 저장 후
+		
+		//1명 데이터 가져오기
+		GuestVo gVo=guestDao.guestbookSelectOne(guestVo.getNo());
+		
+		return gVo;
+	}
 
 }

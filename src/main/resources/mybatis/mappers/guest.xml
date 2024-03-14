@@ -14,7 +14,7 @@
 	<insert id="insert" parameterType="GuestVo">
 		<![CDATA[	
 			insert into guestbook
-			values(null, #{name}, #{password}, #{content}, now());
+			values(null, #{name}, #{password}, #{content}, now())
 		]]>
 	</insert>
 
@@ -22,15 +22,42 @@
 		<![CDATA[	
 			select no, name, password,
 	  			   content, reg_date
-			from guestbook;
+			from guestbook
 		]]>
 	</select>
 	
 	<delete id="delete" parameterType="GuestVo">
 		<![CDATA[	
 			delete from guestbook
-			where no=#{no} and password=#{password};
+			where no=#{no} and password=#{password}
 		]]>
 	</delete>
+	
+	<!-- ajax 저장(저장하고 번호 알아내기) -->
+	<insert id="insertSelectKey" parameterType="GuestVo">
+		<![CDATA[	
+			insert into guestbook
+			values(null, #{name}, #{password}, #{content}, now())
+		]]>
+		<selectKey keyProperty="no" resultType="int" order="AFTER">
+			<![CDATA[
+				select last_insert_id();
+			]]>
+		</selectKey>
+	</insert>
+	
+	   <!-- 데이터1개 가져오기 -->
+   <select id="selectOne" parameterType="int" resultType="com.javaex.vo.GuestVo">
+      <![CDATA[
+         select  no,
+                 name,
+                 password,
+                 content,
+                 reg_date regDate
+         from guestbook
+         where no = #{no}
+      ]]>
+   </select>
+
 
 </mapper>

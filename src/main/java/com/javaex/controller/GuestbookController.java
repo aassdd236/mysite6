@@ -68,12 +68,15 @@ public class GuestbookController {
 	public String ajaxIndex() {
 		System.out.println("GuestbookController.ajaxIndex()");
 		
-		
 		return "guestbook/ajaxIndex";
-		
 	}
 	
-	
+	//등록
+	public int exeAddandGuest(GuestVo guestVo) {
+		System.out.println("GuestbookController.exeAddandGuest()");
+		
+		return 1;
+	}
 	
 	
 	

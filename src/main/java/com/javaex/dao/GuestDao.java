@@ -37,4 +37,23 @@ public class GuestDao {
 		return count;
 	}
 
+	//ajax 등록
+	public int insertSelectKey(GuestVo guestVo) {
+		System.out.println("guestDao.insertSelectKey()");
+		
+		int count = sqlSession.insert("insertSelectKey", guestVo);
+
+		return count;
+	}
+	
+	//데이터 1개 가져오기(no 입력 > 1명 데이터 가져오기)
+	public GuestVo guestbookSelectOne(int no) {
+		System.out.println("guestDao.guestbookSelectOne()");
+			
+		GuestVo guestVo = sqlSession.selectOne("guest.selectOne", no);
+		
+		return guestVo;
+	}
+	
+	
 }
