@@ -31,6 +31,7 @@ public class GalleryController {
 		List<GalleryVo> galleryList = galleryService.exeList();
 		request.setAttribute("galleryList", galleryList);
 		
+		System.out.println(galleryList);
 		return "gallery/list";
 	}
 	

@@ -94,7 +94,7 @@
 								<li>
 									<div class="view">
 										<img class="imgItem"
-											src="${pageContext.request.contextPath}/upload/${saveName}">
+											src="${pageContext.request.contextPath}/upload/${galleryVo.saveName}">
 										<div class="imgWriter">
 											작성자: <strong>${galleryVo.name}</strong>
 										</div>

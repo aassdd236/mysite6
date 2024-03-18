@@ -15,7 +15,7 @@
 
 	<select id="list" resultMap="resultMapGalleryVo">
 		<![CDATA[	
-			select g.no, g.user_no, g.content, u.name
+			select g.no, g.user_no, g.content, u.name, g.save_name
 			from gallery g, users u
 			where g.user_no=u.no
 		]]>
