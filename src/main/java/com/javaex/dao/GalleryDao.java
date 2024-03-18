@@ -19,5 +19,11 @@ public class GalleryDao {
 		
 		return sqlSession.selectList("gallery.list");
 	}
+
+	public void upload(GalleryVo galleryVo) {
+		System.out.println("galleryDao.upload()");
+		
+		sqlSession.insert("gallery.insert", galleryVo);
+	}
 	
 }

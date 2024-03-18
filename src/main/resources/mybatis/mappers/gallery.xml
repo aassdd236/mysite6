@@ -21,5 +21,14 @@
 		]]>
 	</select>
 
+	<insert id="insert" parameterType="GalleryVo">
+    <![CDATA[
+    	insert into gallery
+	    values(null, #{userNo}, #{content}, #{filePath}, #{orgName}, #{saveName}, #{fileSize})
+    ]]>
+	</insert>
+
+
+
 
 </mapper>

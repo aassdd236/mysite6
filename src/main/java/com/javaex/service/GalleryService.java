@@ -26,7 +26,7 @@ public class GalleryService {
 		return galleryDao.list();
 	}
 
-	public String exeUpload(MultipartFile file) {
+	public String exeUpload(MultipartFile file, String content, int userNo) {
 		System.out.println("GalleryService.exeUpload()");
 
 		// 파일 저장 폴더
@@ -54,20 +54,16 @@ public class GalleryService {
 		// 파일 전체 경로(저장파일명 포함)
 		String filePath = saveDir + "\\" + saveName;
 		System.out.println("filePath: " + filePath);
-
-		//내용 저장
-		String content = null;
-		System.out.println("content: "+content);
 		
 		// (1) 파일 정보를 db에 저장
 		// vo 묶어주고
-		GalleryVo galleryVo = new GalleryVo(content, filePath, orgName, saveName, fileSize);
+		GalleryVo galleryVo = new GalleryVo(userNo, content, filePath, orgName, saveName, fileSize);
 		System.out.println(galleryVo);
-
+		System.out.println(userNo);
 		// db에 저장
 		// dao의 메소드 호출해서 저장
+		galleryDao.upload(galleryVo);
 
-		
 		// (2) 파일을 하드디스크에 저장
 		// 파일저장
 		try {

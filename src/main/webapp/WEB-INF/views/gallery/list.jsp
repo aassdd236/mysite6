@@ -122,6 +122,7 @@
 				<div class="closeBtn">×</div>
 				<div class="m-header">간단한 타이틀</div>
 				<div class="m-body">
+				 <input type="hidden" name="userNo" value="${sessionScope.authUser.no}">
 					<div>
 						<label class="form-text">글작성</label> <input id="addModalContent"
 							type="text" name="content" value="">
@@ -131,6 +132,7 @@
 							type="file" name="file" value="">
 					</div>
 				</div>
+				
 				<div class="m-footer">
 					<button type="submit">저장</button>
 				</div>
