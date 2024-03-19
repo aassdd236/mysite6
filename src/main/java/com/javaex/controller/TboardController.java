@@ -1,6 +1,7 @@
 package com.javaex.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,17 +19,34 @@ public class TboardController {
 	@Autowired
 	private TboardService tboardService;
 
+	// 리스트(검색O,페이징 O)
+	@RequestMapping(value = "/tboard/list3", method = { RequestMethod.GET, RequestMethod.POST })
+	public String list3(@RequestParam(value="crtPage", required=false, defaultValue="1") int crtPage,
+						@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
+						Model model) {
+		//파라미터 crtPage가 없으면 1로 처리한다는 뜻
+		System.out.println("TboardController.list3()");
+		System.out.println(keyword);
+		
+		Map<String, Object> pMap=tboardService.exeList3(crtPage, keyword);
+		//모델에 담아 포워드
+		model.addAttribute("pMap", pMap);
+		
+		return "tboard/list3";
+	}
+	
 	// 리스트(검색X,페이징 O)
 	@RequestMapping(value = "/tboard/list2", method = { RequestMethod.GET, RequestMethod.POST })
-	public String list2(@RequestParam(value="crtPage", required=false, defaultValue="1") int crtPage) {
+	public String list2(@RequestParam(value="crtPage", required=false, defaultValue="1") int crtPage,
+						Model model) {
 		//파라미터 crtPage가 없으면 1로 처리한다는 뜻
 		System.out.println("TboardController.list2()");
 
-		System.out.println(crtPage);
-
-		List<TboardVo> boardList = tboardService.exeList2(crtPage);
+		Map<String, Object> pMap=tboardService.exeList2(crtPage);
+		//모델에 담아 포워드
+		model.addAttribute("pMap", pMap);
 		
-		return "tboard/list";
+		return "tboard/list2";
 	}
 
 	// 리스트(검색X,페이징 X)
