@@ -168,7 +168,6 @@ document.addEventListener("DOMContentLoaded", function(){
 	let guestForm = document.querySelector("#guestForm");
 	guestForm.addEventListener("submit", addAndRender);
 	
-	
 	//모달창 호출 버튼을 클릭했을때
 	let guestbookListArea = document.querySelector("#guestbookListArea");
 	guestbookListArea.addEventListener("click", callModal);

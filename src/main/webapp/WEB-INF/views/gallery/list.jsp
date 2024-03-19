@@ -90,10 +90,13 @@
 						<!-- 이미지반복영역 -->
 
 						<c:forEach items="${galleryList}" var="galleryVo">
-							<ul id="viewArea" id="t-"+${galleryVo.no}>
+							<ul id="viewArea" id="t-" +${galleryVo.no}>
 								<li>
 									<div class="view">
-										<img class="imgItem"
+										<img class="imgItem" data-no="galleryVo.no"
+											data-saveName="${galleryVo.saveName}"
+											data-userno="${galleryVo.userNo}"
+											data-content="${galleryVo.content}"
 											src="${pageContext.request.contextPath}/upload/${galleryVo.saveName}">
 										<div class="imgWriter">
 											작성자: <strong>${galleryVo.name}</strong>
@@ -118,11 +121,13 @@
 	<!-- 이미지등록 팝업(모달)창 -->
 	<div id="addModal" class="modal">
 		<div class="modal-content">
-				<form action="${pageContext.request.contextPath}/gallery/upload" method="post" enctype="multipart/form-data">
+			<form action="${pageContext.request.contextPath}/gallery/upload"
+				method="post" enctype="multipart/form-data">
 				<div class="closeBtn">×</div>
 				<div class="m-header">간단한 타이틀</div>
 				<div class="m-body">
-				 <input type="hidden" name="userNo" value="${sessionScope.authUser.no}">
+					<input type="hidden" name="userNo"
+						value="${sessionScope.authUser.no}">
 					<div>
 						<label class="form-text">글작성</label> <input id="addModalContent"
 							type="text" name="content" value="">
@@ -132,7 +137,7 @@
 							type="file" name="file" value="">
 					</div>
 				</div>
-				
+
 				<div class="m-footer">
 					<button type="submit">저장</button>
 				</div>
@@ -147,7 +152,8 @@
 			<div class="m-header">간단한 타이틀</div>
 			<div class="m-body">
 				<div>
-					<img id="viewModelImg" src="">
+					<img id="viewModelImg" src=""> <input type="hidden" id="no"
+						name="no" value="">
 					<!-- ajax로 처리 : 이미지출력 위치-->
 				</div>
 				<div>
@@ -158,7 +164,7 @@
 				<c:choose>
 					<c:when
 						test="${not empty authUser and authUser.no == gallery.userNo}">
-						<button>삭제</button>
+						<button id="deleteBtn">삭제</button>
 					</c:when>
 				</c:choose>
 
@@ -172,41 +178,63 @@
 
 <script type="text/javascript">
 	document.addEventListener("DOMContentLoaded", function() {
-
 		// 모달창 호출 버튼을 클릭했을 때
-		let addModalBtn = document.getElementById("btnImgUpload");
+		let addModalBtn = document.querySelector("#btnImgUpload");
 		addModalBtn.addEventListener("click", callModal);
 
 		// 모달창 닫기 버튼을 클릭했을 때
 		let closeBtn = document.querySelector("#addModal .closeBtn");
 		closeBtn.addEventListener("click", closeModal);
-		
+
 		// 사진 모달창 호출 버튼을 클릭했을 때
-		let viewModalBtn = document.getElementById("#imgItem");
-		viewModalBtn.addEventListener("click", viewModal);
+		let viewAreaBtn = document.querySelectorAll("#viewArea");
+		viewAreaBtn.addEventListener("click", viewModal);
 
 		// 사진 모달창 닫기 버튼을 클릭했을 때
 		let closeBtn02 = document.querySelector("#viewModal .closeBtn");
-		closeBtn02.addEventListener("click", closeModal);
-		
-		
+		closeBtn02.addEventListener("click", closeModal02);
+
+		// 모달창에 삭제버튼을 클릭했을 때
+		let deleteBtn = document.querySelector('#deleteBtn');
+		deleteBtn.addEventListener("click", deleteBtn);
+
 	});
 
 	function callModal(event) {
-		console.log("모달창 보이기");
-		let addModal = document.querySelector("#addModal");
-		addModal.style.display = "block";
+		if (event.target.tagName == "BUTTON") {
+			console.log("모달창 보이기");
+			let addModal = document.querySelector("#addModal");
+			addModal.style.display = "block";
+		}
 	}
 
 	function closeModal(event) {
 		let addModal = document.querySelector("#addModal");
 		addModal.style.display = "none";
 	}
-	
+
 	function viewModal(event) {
-		console.log("모달창 보이기");
+			console.log("모달창 보이기");
+			let viewModal = document.querySelector("#viewModal");
+			viewModal.style.display = "block";
+
+			let noTag = document.querySelector('#no');
+			noTag.value = event.target.dataset.no;
+
+			let saveTag = document.querySelector('#viewModelImg');
+			saveTag.src = "${pageContext.request.contextPath}/upload/"+ event.target.dataset.saveName;
+
+			let contentTag = document.querySelector('#viewModelContent');
+			contentTag.textContent = event.target.dataset.content;
+	}
+
+	function closeModal02(event) {
 		let viewModal = document.querySelector("#viewModal");
-		addModal.style.display = "block";
+		viewModal.style.display = "none";
+	}
+
+	function deleteBtn(event) {
+		console.log("삭제 버튼 클릭");
 	}
 </script>
 
