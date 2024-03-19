@@ -7,7 +7,8 @@
     	 <typeAlias alias="UserVo" type="com.javaex.vo.UserVo" />
          <typeAlias alias="GuestVo" type="com.javaex.vo.GuestVo" />
          <typeAlias alias="BoardVo" type="com.javaex.vo.BoardVo" />
-          <typeAlias alias="GalleryVo" type="com.javaex.vo.GalleryVo" />
+         <typeAlias alias="GalleryVo" type="com.javaex.vo.GalleryVo" />
+         <typeAlias alias="TboardVo" type="com.javaex.vo.TboardVo" />
     </typeAliases>
 
 
@@ -16,5 +17,6 @@
         <mapper resource="mybatis/mappers/guest.xml" />
         <mapper resource="mybatis/mappers/board.xml" />
         <mapper resource="mybatis/mappers/gallery.xml" />
+        <mapper resource="mybatis/mappers/tboard.xml" />
     </mappers>
 </configuration>

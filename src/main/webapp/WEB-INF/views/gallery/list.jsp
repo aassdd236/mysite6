@@ -90,7 +90,7 @@
 						<!-- 이미지반복영역 -->
 
 						<c:forEach items="${galleryList}" var="galleryVo">
-							<ul id="viewArea">
+							<ul id="viewArea" id="t-"+${galleryVo.no}>
 								<li>
 									<div class="view">
 										<img class="imgItem"
@@ -180,6 +180,16 @@
 		// 모달창 닫기 버튼을 클릭했을 때
 		let closeBtn = document.querySelector("#addModal .closeBtn");
 		closeBtn.addEventListener("click", closeModal);
+		
+		// 사진 모달창 호출 버튼을 클릭했을 때
+		let viewModalBtn = document.getElementById("#imgItem");
+		viewModalBtn.addEventListener("click", viewModal);
+
+		// 사진 모달창 닫기 버튼을 클릭했을 때
+		let closeBtn02 = document.querySelector("#viewModal .closeBtn");
+		closeBtn02.addEventListener("click", closeModal);
+		
+		
 	});
 
 	function callModal(event) {
@@ -191,6 +201,12 @@
 	function closeModal(event) {
 		let addModal = document.querySelector("#addModal");
 		addModal.style.display = "none";
+	}
+	
+	function viewModal(event) {
+		console.log("모달창 보이기");
+		let viewModal = document.querySelector("#viewModal");
+		addModal.style.display = "block";
 	}
 </script>
 
