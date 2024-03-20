@@ -82,7 +82,7 @@
 				<div id="gallery">
 					<div id="list">
 
-						<c:if test="${ !(empty sessionScope.authUser) }">
+						<c:if test="${ !(empty sessionScope.authUser.no) }">
 							<button id="btnImgUpload" type="button">이미지올리기</button>
 						</c:if>
 						<div class="clear"></div>
@@ -90,7 +90,7 @@
 						<!-- 이미지반복영역 -->
 
 						<c:forEach items="${galleryList}" var="galleryVo">
-							<ul id="viewArea" id="t-" +${galleryVo.no}>
+							<ul id="viewArea">
 								<li>
 									<div class="view">
 										<img class="imgItem" data-no="galleryVo.no"
@@ -178,16 +178,20 @@
 
 <script type="text/javascript">
 	document.addEventListener("DOMContentLoaded", function() {
+		
 		// 모달창 호출 버튼을 클릭했을 때
-		let addModalBtn = document.querySelector("#btnImgUpload");
-		addModalBtn.addEventListener("click", callModal);
+		let auth = "${sessionScope.authUser.no}";
+		if(auth != ""){
+			let addModalBtn = document.querySelector("#btnImgUpload");
+			addModalBtn.addEventListener("click", callModal);
+		}
 
 		// 모달창 닫기 버튼을 클릭했을 때
 		let closeBtn = document.querySelector("#addModal .closeBtn");
 		closeBtn.addEventListener("click", closeModal);
 
 		// 사진 모달창 호출 버튼을 클릭했을 때
-		let viewAreaBtn = document.querySelectorAll("#viewArea");
+		let viewAreaBtn = document.querySelector("#viewArea");
 		viewAreaBtn.addEventListener("click", viewModal);
 
 		// 사진 모달창 닫기 버튼을 클릭했을 때
@@ -195,8 +199,8 @@
 		closeBtn02.addEventListener("click", closeModal02);
 
 		// 모달창에 삭제버튼을 클릭했을 때
-		let deleteBtn = document.querySelector('#deleteBtn');
-		deleteBtn.addEventListener("click", deleteBtn);
+		//let deleteBtn = document.querySelector('#deleteBtn');
+		//deleteBtn.addEventListener("click", deleteBtn);
 
 	});
 
